@@ -1,0 +1,17 @@
+db:
+  container_name: mattermost_db
+  image: moifort/docker-mattermost-db:3.2.0
+  restart: unless-stopped
+  volumes:
+    - ./postgresql/data:/var/lib/postgresql/data
+    - /etc/localtime:/etc/localtime:ro
+app:
+  container_name: mattermost
+  image: moifort/docker-mattermost-app:3.2.0
+  restart: unless-stopped
+  links:
+    - db:db
+  volumes:
+    - ./mattermost/config:/mattermost/config:rw
+    - ./mattermost/data:/mattermost/data:rw
+    - /etc/localtime:/etc/localtime:ro
